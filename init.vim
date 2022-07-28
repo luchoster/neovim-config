@@ -1,31 +1,94 @@
+set encoding=utf-8
+
+" when using nvim
+" call plug#begin('~/.config/nvim/plugged')
 call plug#begin(stdpath('data') . '/plugged')
 
-  Plug 'mhartington/oceanic-next'
-  Plug 'neoclide/coc.nvim', { 'branch' : 'release' }
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'ternjs/tern_for_vim'
 
-  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'neoclide/coc.nvim', { 'branch' : 'release' }
+
+  " Themes
+  " Plug 'sickill/vim-monokai'
+  " Plug 'mhartington/oceanic-next'
+  Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'EdenEast/nightfox.nvim'
+
+  Plug 'junegunn/vim-easy-align'
+
+  " Any valid git URL is allowed
+  Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+  " Multiple Plug commands can be written in a single line using | separators
+  " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+  " On-demand loading
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+  Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+  " Using a non-master branch
+  " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+  " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+
+  " Plug options
+  Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+  " Plug outside ~/.vim/plugged with post-update hook
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+  " Unmanaged plugin (manually installed and updated)
+  Plug '~/my-prototype-plugin'
+
+  Plug 'pangloss/vim-javascript'
+  Plug 'othree/javascript-libraries-syntax.vim'
+  Plug 'othree/es.next.syntax.vim'
+  Plug 'othree/yajs.vim'
+  Plug 'mxw/vim-jsx'
+  Plug 'kchmck/vim-coffee-script'
+  Plug 'flowtype/vim-flow'
 
   Plug 'leafgarland/typescript-vim'
-  Plug 'pangloss/vim-javascript'
   Plug 'peitalin/vim-jsx-typescript'
-  Plug 'maxmellon/vim-jsx-pretty'
 
-  " Plug 'cakebaker/scss-syntax.vim'
-  Plug 'vim-airline/vim-airline'
-
-  " Plug 'prettier/vim-prettier',  { 'do': 'yarn install' }
-  Plug 'nvim-lua/completion-nvim'
+  Plug 'godlygeek/tabular'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'scrooloose/syntastic'
+  Plug 'blueyed/vim-diminactive'
   Plug 'tpope/vim-commentary'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'terryma/vim-multiple-cursors'
+  "Plug 'Valloric/YouCompleteMe'
+  Plug 'mileszs/ack.vim'
+  Plug 'rking/ag.vim'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'wavded/vim-stylus'
+  Plug 'stylus/stylus'
+  Plug 'iamcco/markdown-preview.vim'
+  " Plug 'prettier/vim-prettier',  { 'do': 'yarn install' }
+  " Plug 'vim-airline/vim-airline'
+
+  Plug 'mattn/emmet-vim', { 'for': 'html' }
+
+  Plug 'tomlion/vim-solidity'
+
+  Plug 'cakebaker/scss-syntax.vim'
+
+  Plug 'jwalton512/vim-blade'
+
   Plug 'github/copilot.vim'
 
+" Initialize plugin system
 call plug#end()
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Manually Turn on Feature
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufEnter * EnableStripWhitespaceOnSave
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -66,9 +129,6 @@ vmap <C-X> "+d
 vmap <C-V> "_di<C-V><ESC>
 
 
-set undofile
-set undodir=~/.vim/unodir
-
 set number
 set tabstop=2
 set smarttab
@@ -84,48 +144,10 @@ set relativenumber
 set laststatus=2
 set statusline=%f
 set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{SyntasticStatuslineFlag()}
 
 
 set rtp+=/usr/local/opt/fzf
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
-
-set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-  set guioptions-=T
-  set guioptions-=e
-  set t_Co=256
-  set guitablabel=%M\ %t
-endif
-
-if (has("termguicolors"))
-  set termguicolors
-  colorscheme OceanicNext
-else
-  colorscheme OceanicNext
-endif
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -175,7 +197,7 @@ set hlsearch
 " Makes search act like search in modern browsers
 set incsearch
 
-" Don't redraw whle executing macros (good performance config)
+" Don't redraw while executing macros (good performance config)
 set lazyredraw
 
 " For regular expressions turn magic on
@@ -195,6 +217,50 @@ set tm=500
 " Add a bit extra margin to the left
 set foldcolumn=1
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable
+
+set background=dark
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+  set guioptions-=T
+  set guioptions-=e
+  set t_Co=256
+  set guitablabel=%M\ %t
+endif
+
+hi Normal guifg=#bbbbbb guibg=NONE gui=NONE
+
+if has("gui_macvim")
+  set termguicolors
+  " colorscheme OceanicNext
+  " colorscheme dracula
+  " colorscheme nordfox
+  colorscheme nightfox
+else
+  " colorscheme dracula
+  " colorscheme OceanicNext
+  " colorscheme nordfox
+  colorscheme nightfox
+endif
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -210,6 +276,7 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
@@ -272,32 +339,45 @@ let g:prettier#config#bracket_spacing = 'true'
 let g:prettier#config#semi = 'false'
 let g:prettier#config#jsx_bracket_same_line = 'false'
 let g:prettier#config#parser = 'babylon'
-" autocmd BufWritePre *.js Prettier
 
-vmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>ff :Prettier<cr>
-map <leader>ff :Prettier<cr>
+autocmd BufWritePre *.py,*.json,*.scss,*.css,*.graphql Prettier
+autocmd BufRead,BufNewFile *.js set filetype=javascript.jsx
 
-" original
-" autocmd BufWritePre *.py,*.json,*.scss,*.css,*.graphql Prettier
-autocmd BufWritePre *.py,*.json,*.css,*.graphql,*.tsx,*.jsx,*.js Prettier
-autocmd BufRead,BufNewFile *.js set filetype=javascript
 
-autocmd BufNewFile,BufRead *.tsx,*.jsx,*.js set filetype=typescriptreact
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => TYpescript Stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
-" autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => SCSS-syntax
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.scss set filetype=scss.css
-autocmd FileType scss setl iskeyword+=@-@
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Blade-syntax
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto indent
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => YouCompleteMe
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:ycm_autoclose_preview_window_after_completion = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tab Completion COC
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" use <tab> for trigger completion and navigate to the next complete item
+
+" inoremap <silent><expr> <Tab>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<Tab>" :
+"       \ coc#refresh()
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Coc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
 set encoding=utf-8
@@ -388,6 +468,11 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
+map <leader>fp :Prettier<cr>
+
+" Copilot
+map <C-]> <Plug>(copilot-next)
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -435,15 +520,14 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
+" Prettier
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Prettier
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -466,4 +550,4 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>"
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
