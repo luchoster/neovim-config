@@ -1,8 +1,8 @@
-set encoding=utf-8
+"" set encoding=utf-8
 
 " when using nvim
-" call plug#begin('~/.config/nvim/plugged')
 call plug#begin(stdpath('data') . '/plugged')
+" call plug#begin('~/.config/nvim/plugged')
 
   Plug 'ternjs/tern_for_vim'
 
@@ -112,18 +112,18 @@ nmap <leader>w :w!<cr>
 
 nmap <leader>s :Ag
 
-nmap ,a= :Tabularize /=<CR>
-vmap ,a= :Tabularize /=<CR>
-nmap ,a: :Tabularize /^[^:]*\zs:<CR>
-vmap ,a: :Tabularize /:<CR>
-nmap ,aa :Tabularize /\CAS<CR>
-nmap ,ff :Tabularize /from<CR>
-nmap ,afr :Tabularize /=><CR>
-vmap ,afr :Tabularize /=><CR>
-nmap ,atr :Tabularize /-><CR>
-vmap ,atr :Tabularize /-><CR>
-nmap ,agg :Tabularize /:=<CR>
-vmap ,agg :Tabularize /:=<CR>
+nmap ,a= :Tabularize /=<tab>
+vmap ,a= :Tabularize /=<tab>
+nmap ,a: :Tabularize /^[^:]*\zs:<tab>
+vmap ,a: :Tabularize /:<tab>
+nmap ,aa :Tabularize /\CAS<tab>
+nmap ,ff :Tabularize /from<tab>
+nmap ,afr :Tabularize /=><tab>
+vmap ,afr :Tabularize /=><tab>
+nmap ,atr :Tabularize /-><tab>
+vmap ,atr :Tabularize /-><tab>
+nmap ,agg :Tabularize /:=<tab>
+vmap ,agg :Tabularize /:=<tab>
 vmap <C-C> "+ygv
 vmap <C-X> "+d
 vmap <C-V> "_di<C-V><ESC>
@@ -238,14 +238,14 @@ hi Normal guifg=#bbbbbb guibg=NONE gui=NONE
 if has("gui_macvim")
   set termguicolors
   " colorscheme OceanicNext
-  " colorscheme dracula
+  colorscheme dracula
   " colorscheme nordfox
-  colorscheme nightfox
+  " colorscheme nightfox
 else
-  " colorscheme dracula
+  colorscheme dracula
   " colorscheme OceanicNext
   " colorscheme nordfox
-  colorscheme nightfox
+  " colorscheme nightfox
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -371,16 +371,24 @@ autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade
 " => Tab Completion COC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " use <tab> for trigger completion and navigate to the next complete item
+inoremap <silent><expr> <TAB>
+  \ coc#pum#visible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ?
+  \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
-" inoremap <silent><expr> <Tab>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<Tab>" :
-"       \ coc#refresh()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
-set encoding=utf-8
+" set encoding=utf-8
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -408,20 +416,6 @@ else
   set signcolumn=yes
 endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
 " Use <c-space> to trigger completion.
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
@@ -433,6 +427,8 @@ endif
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -551,3 +547,24 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+" FZF Configuration
+" " This is the default extra key bindings
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
